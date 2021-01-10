@@ -8,11 +8,7 @@ class AdawayGenerator {
         val whitelist = whitelist()
 
         return blacklist().filter {
-            whitelist.forEach { e ->
-                if (it.contains(e)) { return@filter false }
-            }
-
-            return@filter true
+            return@filter !whitelist.any { e -> it.contains(e) }
         }
         .map { e -> "0.0.0.0 $e" }
         .toList()
