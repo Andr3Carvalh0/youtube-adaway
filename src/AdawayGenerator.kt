@@ -1,17 +1,15 @@
 import java.io.File
 
-const val IGNORE_WEB_BLACKLIST = true
+const val IGNORE_WEB_BLACKLIST = false
 
 class AdawayGenerator {
 
     fun generate(): List<String> {
         val whitelist = whitelist()
 
-        return blacklist().filter {
-            return@filter !whitelist.any { e -> it.contains(e) }
-        }
-        .map { e -> "0.0.0.0 $e" }
-        .toList()
+        return blacklist().filter { !whitelist.any { e -> it.contains(e) } }
+                .map { e -> "0.0.0.0 $e" }
+                .toList()
     }
 
     private fun blacklist(): List<String> {
