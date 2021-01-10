@@ -1,5 +1,7 @@
 import java.io.File
 
+const val IGNORE_WEB_BLACKLIST = true
+
 class AdawayGenerator {
 
     fun generate(): List<String> {
@@ -18,7 +20,7 @@ class AdawayGenerator {
 
     private fun blacklist(): List<String> {
         val blacklist = file("blacklist.txt")
-        val webBlacklist = file("webblacklist.txt")
+        val webBlacklist = if (IGNORE_WEB_BLACKLIST) emptyList() else file("webblacklist.txt")
 
         return blacklist.plus(webBlacklist).distinct()
     }
@@ -35,11 +37,12 @@ class AdawayGenerator {
 }
 
 fun main() {
-    File("generated/").mkdir()
-    File("generated/list.txt").apply {
-        printWriter().use { writer ->
-            AdawayGenerator().generate().forEach {
-                writer.println(it)
+    File("generated/").mkdir().also {
+        File("generated/hosts").also { file ->
+            file.printWriter().use { writer ->
+                AdawayGenerator().generate().forEach {
+                    writer.println(it)
+                }
             }
         }
     }
