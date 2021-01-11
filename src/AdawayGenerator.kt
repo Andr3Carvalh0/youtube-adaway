@@ -1,6 +1,8 @@
 import java.io.File
 
 const val IGNORE_WEB_BLACKLIST = false
+const val OUTPUT_FOLDER = "generated/"
+const val OUTPUT_FILE = "hosts"
 
 class AdawayGenerator {
 
@@ -31,14 +33,14 @@ class AdawayGenerator {
 }
 
 fun main() {
-    File("generated/").mkdir().also {
-        File("generated/hosts").also { file ->
-            file.printWriter().use { writer ->
-                AdawayGenerator().generate().forEach {
-                    writer.println(it)
+    File(OUTPUT_FOLDER).mkdir().also {
+        File(OUTPUT_FOLDER, OUTPUT_FILE)
+                .printWriter()
+                .use { writer ->
+                    AdawayGenerator().generate().forEach {
+                        writer.println(it)
+                    }
                 }
-            }
-        }
     }
 }
 
